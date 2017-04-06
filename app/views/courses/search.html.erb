@@ -1,0 +1,38 @@
+<div class="form-group">
+<%= form_tag("/courses/results", method: "get") do %>
+	<%= label_tag(:semester, "Semester") %>
+    <%= collection_select(:semester, :semester_id, Semester.all, :id, :season_with_year, {}, {class: "form-control"}) %>
+
+	<%= label_tag(:subject, "Subject") %>
+	<%= collection_select(:subject, :subject_id, Subject.all, :id, :name, {include_blank: ''}, {class: "form-control"}) %>
+
+	<%= label_tag(:course_number, "Course Number") %>
+    <%= text_field_tag :course_number, "", class: "form-control" %>
+
+	<%= label_tag(:building, "Building") %>
+    <%= collection_select(:building, :building_id, Building.all, :id, :name, {include_blank: ''}, {class: "form-control"}) %>
+
+    <%= label_tag(:instructor, "Instructor") %>
+    <%= collection_select(:instructor, :instructor_id, Instructor.all, :id, :first_and_last, {include_blank: ''}, {class: "form-control"}) %>
+
+    <%= label_tag(:status, "Status") %>
+    <%= collection_select(:status, :status_id, Status.all, :id, :name, {include_blank: ''}, {class: "form-control"}) %>
+
+    <%= label_tag(:credits, "Credits") %>
+    <div class="row">
+        <div class="col-xs-8 col-sm-2">
+            <%= collection_select(:credits, :operator, @operators, :to_s, :to_s, {}, {class: "form-control"}) %>
+        </div>
+        <div class="col-xs-4 col-sm-2">
+            <%= text_field_tag "credits[number]", "", class: "form-control" %>
+        </div>
+    </div>
+    <%= label_tag(:campus, "Campus") %>
+    <%= collection_select(:campus, :campus_id, Campus.all, :id, :name, {selected: current_student.campus_id}, {class: "form-control"}) %>
+
+    </div>
+
+	<div class="form-group">
+    <%= submit_tag("Search", class: "btn btn-primary") %>   
+    </div>
+<% end %>

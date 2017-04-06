@@ -1,0 +1,63 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @course.name %>
+</p>
+
+<p>
+  <strong>Course number:</strong>
+  <%= @course.course_number %>
+</p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @course.subject.name %>
+</p>
+
+<p>
+  <strong>Section:</strong>
+  <%= @course.section %>
+</p>
+
+<p>
+  <strong>Times:</strong>
+  <% @course.course_days.each_with_index do |course_day, i| %>
+  <ul>
+  <li><%= course_day.day.name %> <%= course_day.start.strftime("%I:%M %p") %>-<%= course_day.end.strftime("%I:%M %p") %></li>
+  </ul>
+  <% end %>
+</p>
+
+<p>
+  <strong>Credits:</strong>
+  <%= @course.credits %>
+</p>
+
+<p>
+  <strong>Building:</strong>
+  <%= @course.building.name %>
+</p>
+
+<p>
+  <strong>Instructor:</strong>
+  <%= @course.instructor.first_name %> <%= @course.instructor.last_name %>
+</p>
+
+<p>
+  <strong>Semester:</strong>
+  <%= @course.semester.season %> <%= @course.semester.year %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <%= @course.status.name %>
+</p>
+
+<p>
+  <strong>Campus:</strong>
+  <%= @course.campus.name %>
+</p>
+
+<%= link_to 'Edit', edit_course_path(@course) %> |
+<%= link_to 'Back', courses_path %>

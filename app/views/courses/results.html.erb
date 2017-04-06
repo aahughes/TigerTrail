@@ -1,0 +1,73 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Courses</h1>
+
+<div class="table table-responsive">
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Subject</th>
+      <th>Number</th>
+      <th>Section</th>
+      <th>Name</th>
+      <th>Times</th>
+      <th>Instructor</th>
+      <th>Room</th>
+      <th>Credits</th>
+      <th>Semester</th>
+      <th>Status</th>
+      <th>Campus</th>
+
+      <!-- Check if user is admin. If so, show manage header-->
+      <% if current_student && current_student.is_admin %>
+        <th colspan="3">Manage</th>
+      <% elsif current_student && !current_student.is_admin %>
+        <th> </th>
+      <% end %>
+
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @courses.each do |course| %>
+      <tr>
+        <td><%= course.subject.name %></td>
+        <td><%= course.course_number %></td>
+        <td><%= course.section %></td>
+        <td><%= course.name %></td>
+        <td>
+          <% course.course_days.each_with_index do |course_day, i| %>
+            <%= course_day.day.name %> <%= course_day.start.strftime("%I:%M %p") %>-<%= course_day.end.strftime("%I:%M %p") %><% if i < course.course_days.size - 1 %>, <%end%>
+          <% end %>
+
+        </td>
+        <td><%= course.instructor.first_name %> <%= course.instructor.last_name %></td>
+        <td><%= course.room_number %> <%= course.building.name %></td>
+        <td><%= course.credits %></td>
+        <td><%= course.semester.season %> <%= course.semester.year %></td>
+        <!-- Style course status (color-coded) -->
+        <td><span class="<%= course.status.name %>">
+        <%= course.status.name %>
+        </span></td>
+        <td><%= course.campus.name %></td>
+        <!-- Check if user is admin. If so, show manage functions. -->
+        <% if current_student && current_student.is_admin %>
+          <td><%= link_to 'Show', course %></td>
+          <td><%= link_to 'Edit', edit_course_path(course) %></td>
+          <td><%= link_to 'Destroy', course, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+          <!-- Check if user is a student. Then, check if student has already selected the course. If not, show select option. -->
+        <% elsif current_student && !current_student.is_admin %>
+          <td>
+            <% if !current_student.schedules.first.courses.include?(course)  %>
+               <%= link_to 'Select Course', add_course_path(course.id) %> 
+            <% end %> 
+          </td>
+        <% end %>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>

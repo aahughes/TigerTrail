@@ -1,0 +1,7 @@
+@sunday = Day.create(name:'Sunday')
+@monday = Day.create(name:'Monday')
+@tuesday = Day.create(name:'Tuesday')
+@wednesday = Day.create(name:'Wednesday')
+@thursday = Day.create(name:'Thursday')
+@friday = Day.create(name:'Friday')
+@saturday = Day.create(name:'Saturday')

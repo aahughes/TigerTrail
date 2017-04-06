@@ -1,0 +1,120 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Student:</strong>
+  <%= @schedule.student.first_name + " " + @schedule.student.last_name %>
+</p>
+
+<p>
+  <strong>Semester:</strong>
+  <%= @schedule.semester.season_with_year %>
+</p>
+
+
+<!-- Select courses to register -->
+
+<%= form_tag register_course_path, method: "post" do %>
+
+<strong>Selected Courses:</strong>
+<table>
+  <thead>
+    <tr>
+      <th>Register</th>
+      <th>Subject</th>
+      <th>Number</th>
+      <th>Section</th>
+      <th>Name</th>
+      <th>Times</th>
+      <th>Instructor</th>
+      <th>Room</th>
+      <th>Credits</th>
+      <th>Status</th>
+      <th>Campus</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @temp_courses.each do |course| %>
+      <tr>
+      	<td> 
+      	<% if course.status.name == "open" %>
+      	<%= check_box_tag "course_ids[]", course.id %>
+      	<% end %>
+      	</td>
+        <td><%= course.subject.name %></td>
+        <td><%= course.course_number %></td>
+        <td><%= course.section %></td>
+        <td><%= course.name %></td>
+        <td>
+          <% course.course_days.each_with_index do |course_day, i| %>
+            <%= course_day.day.name %> <%= course_day.start.strftime("%I:%M %p") %>-<%= course_day.end.strftime("%I:%M %p") %><% if i < course.course_days.size - 1 %>, <%end%>
+          <% end %>
+
+        </td>
+        <td><%= course.instructor.first_name %> <%= course.instructor.last_name %></td>
+        <td><%= course.room_number %> <%= course.building.name %></td>
+        <td><%= course.credits %></td>
+        <td>
+        <span class="<%= course.status.name %>">
+        <%= course.status.name %>
+       	</span>
+        </td>
+        <td><%= course.campus.name %></td>
+        <td><%= link_to 'Remove', remove_course_path(@schedule, course), data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<%= submit_tag "Register selected classes" %>
+<% end %>
+
+<br><br><br>
+
+
+<strong>Registered Courses:</strong>
+<table>
+  <thead>
+    <tr>
+      <th>Subject</th>
+      <th>Number</th>
+      <th>Section</th>
+      <th>Name</th>
+      <th>Times</th>
+      <th>Instructor</th>
+      <th>Room</th>
+      <th>Credits</th>
+      <th>Campus</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @registered_courses.each do |course| %>
+      <tr>
+        <td><%= course.subject.name %></td>
+        <td><%= course.course_number %></td>
+        <td><%= course.section %></td>
+        <td><%= course.name %></td>
+        <td>
+          <% course.course_days.each_with_index do |course_day, i| %>
+            <%= course_day.day.name %> <%= course_day.start.strftime("%I:%M %p") %>-<%= course_day.end.strftime("%I:%M %p") %><% if i < course.course_days.size - 1 %>, <%end%>
+          <% end %>
+
+        </td>
+        <td><%= course.instructor.first_name %> <%= course.instructor.last_name %></td>
+        <td><%= course.room_number %> <%= course.building.name %></td>
+        <td><%= course.credits %></td>
+        <td><%= course.campus.name %></td>
+        <td><%= link_to 'Drop', remove_course_path(@schedule, course), data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Edit', edit_schedule_path(@schedule) %> |
+<%= link_to 'Back', schedules_path %>

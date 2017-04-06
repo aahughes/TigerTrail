@@ -1,0 +1,72 @@
+<%= form_for(course) do |f| %>
+  <% if course.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(course.errors.count, "error") %> prohibited this course from being saved:</h2>
+
+      <ul>
+      <% course.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :course_number %>
+    <%= f.text_field :course_number %>
+  </div>
+
+  <div class="field">
+    <%= f.label :subject_id %>
+    <%= f.collection_select(:subject_id, Subject.all, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :section %>
+    <%= f.text_field :section %>
+  </div>
+
+  <div class="field">
+    <%= f.label :credits %>
+    <%= f.number_field :credits, step: 0.5, min: 0.5 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :building_id %>
+    <%= f.collection_select(:building_id, Building.all, :id, :name) %>
+  </div>
+
+    <div class="field">
+    <%= f.label :room_number %>
+    <%= f.text_field :room_number %>
+  </div>
+
+  <div class="field">
+    <%= f.label :instructor_id %>
+    <%= f.collection_select(:instructor_id, Instructor.all, :id, :first_and_last) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :semester_id %>
+    <%= f.collection_select(:semester_id, Semester.all, :id, :season_with_year) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :status_id %>
+    <%= f.collection_select(:status_id, Status.all, :id, :name) %>
+  </div>
+
+  <div class="field">
+    <%= f.label :campus_id %>
+    <%= f.collection_select(:campus_id, Campus.all, :id, :name) %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

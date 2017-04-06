@@ -1,0 +1,11 @@
+<% if current_student %>
+	
+	<%= menu_item "My Account", edit_student_registration_path %>
+	<%= menu_item "Logout", destroy_student_session_path, :method => :delete %>
+
+<% else %>
+
+	<%= menu_item "Create An Account", new_student_registration_path %>
+	<%= menu_item "Login", new_student_session_path  %>
+
+<% end %>
