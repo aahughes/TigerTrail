@@ -60,7 +60,7 @@
         <% elsif current_student && !current_student.is_admin %>
           <td>
             <% if !current_student.schedules.first.courses.include?(course)  %>
-               <%= link_to 'Select Course', add_course_path(course.id) %> 
+               <%= link_to 'Select Course', add_course_path(course.id), class: "btn btn-primary" %> 
             <% end %> 
           </td>
         <% end %>

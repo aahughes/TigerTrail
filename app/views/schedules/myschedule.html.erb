@@ -78,7 +78,7 @@
          	</span>
           </td>
           <td><%= course.campus.name %></td>
-          <td><%= button_to 'Remove', remove_course_path(@schedule, course), data: { confirm: "Are you sure you want to remove #{course.subject.name + course.course_number}?" }, class: "btn btn-danger" %></td>
+          <td><%= link_to 'Remove', remove_course_path(@schedule, course), data: { confirm: "Are you sure you want to remove #{course.subject.name + course.course_number}?" }, class: "btn btn-danger" %></td>
         </tr>
       <% end %>
     </tbody>
@@ -135,7 +135,7 @@
           <td><%= course.room_number %> <%= course.building.name %></td>
           <td><%= course.credits %></td>
           <td><%= course.campus.name %></td>
-          <td><%= button_to 'Drop', remove_course_path(@schedule, course), data: { confirm: "Are you sure you want to drop #{course.subject.name + course.course_number}?" }, class: "btn btn-danger" %></td>
+          <td><%= link_to 'Drop', remove_course_path(@schedule, course), data: { confirm: "Are you sure you want to drop #{course.subject.name + course.course_number}?" }, class: "btn btn-danger" %></td>
         </tr>
       <% end %>
     </tbody>
