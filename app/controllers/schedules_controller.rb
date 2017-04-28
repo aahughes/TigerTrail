@@ -42,6 +42,8 @@ class SchedulesController < ApplicationController
     end
   end
 
+
+# Get JSON data for all of a student's registered courses, getting data for each individual CourseDay as a separate event
   def registeredCoursesJSON
     @jsonData = []
     @schedule = current_student.schedules.first

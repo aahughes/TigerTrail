@@ -1,5 +1,6 @@
 
 <br>
+<!-- Show panel of Student Info -->
 <div class="panel panel-primary">
   <div class="panel-heading"> Student Info </div>
   <div class="row panel-body">
@@ -16,136 +17,133 @@
   </div>
 </div>
 
-
+<!-- Insert a tabbed view with two tabs, one for selected courses and one for registered courses-->
 <ul class="nav nav-tabs">
-
-
-<li class="active courses-tab"><a data-toggle="tab" href="#selected">Selected Courses</a></li>
-<li class="courses-tab"><a data-toggle="tab" href="#registered">Registered Courses</a></li>
+  <li class="active courses-tab"><a data-toggle="tab" href="#selected">Selected Courses</a></li>
+  <li class="courses-tab"><a data-toggle="tab" href="#registered">Registered Courses</a></li>
 </ul>
 
 <div class="tab-content">
-<div id="selected" class="tab-pane   active">
+  <div id="selected" class="tab-pane   active">
 
-<!-- Show selected courses, can select from these to register -->
+    <!-- Show selected courses, can select from these to register -->
 
-<%= form_tag register_course_path, method: "post" do %>
+    <%= form_tag register_course_path, method: "post" do %>
 
-<h2>Selected Courses</h2>
-<div class="table-responsive">
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Register</th>
-        <th>Subject</th>
-        <th>Number</th>
-        <th>Section</th>
-        <th>Name</th>
-        <th>Times</th>
-        <th>Instructor</th>
-        <th>Room</th>
-        <th>Credits</th>
-        <th>Status</th>
-        <th>Campus</th>
-        <th></th>
-      </tr>
-    </thead>
+    <h2>Selected Courses</h2>
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Register</th>
+            <th>Subject</th>
+            <th>Number</th>
+            <th>Section</th>
+            <th>Name</th>
+            <th>Times</th>
+            <th>Instructor</th>
+            <th>Room</th>
+            <th>Credits</th>
+            <th>Status</th>
+            <th>Campus</th>
+            <th></th>
+          </tr>
+        </thead>
 
-    <tbody>
-      <% @temp_courses.each do |course| %>
-        <tr>
-        	<td> 
-        	<% if course.status.name == "open" %>
-        	<%= check_box_tag "course_ids[]", course.id %>
-        	<% end %>
-        	</td>
-          <td><%= course.subject.name %></td>
-          <td><%= course.course_number %></td>
-          <td><%= course.section %></td>
-          <td><%= course.name %></td>
-          <td>
-            <% course.course_days.each_with_index do |course_day, i| %>
-              <%= course_day.day.name %> <%= course_day.start.strftime("%I:%M %p") %>-<%= course_day.end.strftime("%I:%M %p") %><% if i < course.course_days.size - 1 %>, <%end%>
-            <% end %>
+        <tbody>
+          <% @temp_courses.each do |course| %>
+            <tr>
+            	<td> 
+            	<% if course.status.name == "open" %>
+            	<%= check_box_tag "course_ids[]", course.id %>
+            	<% end %>
+            	</td>
+              <td><%= course.subject.name %></td>
+              <td><%= course.course_number %></td>
+              <td><%= course.section %></td>
+              <td><%= course.name %></td>
+              <td>
+                <% course.course_days.each_with_index do |course_day, i| %>
+                  <%= course_day.day.name %> <%= course_day.start.strftime("%I:%M %p") %>-<%= course_day.end.strftime("%I:%M %p") %><% if i < course.course_days.size - 1 %>, <%end%>
+                <% end %>
 
-          </td>
-          <td><%= course.instructor.first_name %> <%= course.instructor.last_name %></td>
-          <td><%= course.room_number %> <%= course.building.name %></td>
-          <td><%= course.credits %></td>
-          <td>
-          <span class="<%= course.status.name %>">
-          <%= course.status.name %>
-         	</span>
-          </td>
-          <td><%= course.campus.name %></td>
-          <td><%= link_to 'Remove', remove_course_path(@schedule, course), data: { confirm: "Are you sure you want to remove #{course.subject.name + course.course_number}?" }, class: "btn btn-danger" %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+              </td>
+              <td><%= course.instructor.first_name %> <%= course.instructor.last_name %></td>
+              <td><%= course.room_number %> <%= course.building.name %></td>
+              <td><%= course.credits %></td>
+              <td>
+              <span class="<%= course.status.name %>">
+              <%= course.status.name %>
+             	</span>
+              </td>
+              <td><%= course.campus.name %></td>
+              <td><%= link_to 'Remove', remove_course_path(@schedule, course), data: { confirm: "Are you sure you want to remove #{course.subject.name + course.course_number}?" }, class: "btn btn-danger" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <br>
+    <%= submit_tag "Register selected classes", class: "btn btn-primary" %>
+    <% end %>
+    <br><br>
+
+    <!-- Show student's Selected and Registered classes as a weekly schedule -->
+    <h2>Tentative Schedule</h2>
+    <div id="tempCalendar"></div>
+  </div>
+
+  <div id="registered" class="tab-pane ">
+
+    <!-- Show list of student's registered courses -->
+
+    <h2>Registered Courses</h2>
+    <div class="table-responsive">
+        <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Number</th>
+            <th>Section</th>
+            <th>Name</th>
+            <th>Times</th>
+            <th>Instructor</th>
+            <th>Room</th>
+            <th>Credits</th>
+            <th>Campus</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @registered_courses.each do |course| %>
+            <tr>
+              <td><%= course.subject.name %></td>
+              <td><%= course.course_number %></td>
+              <td><%= course.section %></td>
+              <td><%= course.name %></td>
+              <td>
+                <% course.course_days.each_with_index do |course_day, i| %>
+                  <%= course_day.day.name %> <%= course_day.start.strftime("%I:%M %p") %>-<%= course_day.end.strftime("%I:%M %p") %><% if i < course.course_days.size - 1 %>, <%end%>
+                <% end %>
+
+              </td>
+              <td><%= course.instructor.first_name %> <%= course.instructor.last_name %></td>
+              <td><%= course.room_number %> <%= course.building.name %></td>
+              <td><%= course.credits %></td>
+              <td><%= course.campus.name %></td>
+              <td><%= link_to 'Drop', remove_course_path(@schedule, course), data: { confirm: "Are you sure you want to drop #{course.subject.name + course.course_number}?" }, class: "btn btn-danger" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <br>
+
+    <!-- Show student's Registered classes as a weekly schedule -->
+    <h2> Course Schedule </h2>
+    <div id="registeredCalendar"></div>
+  </div>
 </div>
-
-<br>
-<%= submit_tag "Register selected classes", class: "btn btn-primary" %>
-<% end %>
-<br><br>
-
-<!-- Show student's Selected and Registered classes as a weekly schedule -->
-<h2>Tentative Schedule</h2>
-<div id="tempCalendar"></div>
-
-</div>
-
-<div id="registered" class="tab-pane ">
-
-<!-- Show list of student's registered courses -->
-
-<h2>Registered Courses</h2>
-<div class="table-responsive">
-    <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Subject</th>
-        <th>Number</th>
-        <th>Section</th>
-        <th>Name</th>
-        <th>Times</th>
-        <th>Instructor</th>
-        <th>Room</th>
-        <th>Credits</th>
-        <th>Campus</th>
-        <th></th>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @registered_courses.each do |course| %>
-        <tr>
-          <td><%= course.subject.name %></td>
-          <td><%= course.course_number %></td>
-          <td><%= course.section %></td>
-          <td><%= course.name %></td>
-          <td>
-            <% course.course_days.each_with_index do |course_day, i| %>
-              <%= course_day.day.name %> <%= course_day.start.strftime("%I:%M %p") %>-<%= course_day.end.strftime("%I:%M %p") %><% if i < course.course_days.size - 1 %>, <%end%>
-            <% end %>
-
-          </td>
-          <td><%= course.instructor.first_name %> <%= course.instructor.last_name %></td>
-          <td><%= course.room_number %> <%= course.building.name %></td>
-          <td><%= course.credits %></td>
-          <td><%= course.campus.name %></td>
-          <td><%= link_to 'Drop', remove_course_path(@schedule, course), data: { confirm: "Are you sure you want to drop #{course.subject.name + course.course_number}?" }, class: "btn btn-danger" %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-
-<br>
-
-<!-- Show student's Registered classes as a weekly schedule -->
-<h2> Course Schedule </h2>
-<div id="registeredCalendar"></div>
-
-</div></div>

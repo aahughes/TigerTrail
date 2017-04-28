@@ -20,10 +20,13 @@
 
 $(document).ready(function() {
 
+	// Render calendars in tabs when switching between them
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 		$('#registeredCalendar').fullCalendar('render');
 	    $('#tempCalendar').fullCalendar('render');
 	});
+
+	// Render both course schedule calendars, showing all days of the week, with times between 8:00AM and 10:00PM
 
 	$('#registeredCalendar').fullCalendar({
 	    events: '/schedules/registeredCoursesJSON.json',

@@ -5,10 +5,8 @@ Rails.application.routes.draw do
   get "schedules/tempCoursesJSON" => "schedules#tempCoursesJSON"
 
 
-
   get "courses/add/:id" => "courses#add", as: "add_course"
   get "schedules/:schedule_id/courses/:course_id" => "courses#remove", as: "remove_course"
-
 
 
   get "schedules/myschedule" => "schedules#myschedule", as: "my_schedule"

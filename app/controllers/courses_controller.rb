@@ -13,7 +13,7 @@ class CoursesController < ApplicationController
 
   end
 
-# Adds a course to selected courses list
+# Adds a course to selected courses list and redirects to schedule page
   def add
     course = Course.find(params[:id])
     @course = CourseSchedule.new(course_id: course.id , schedule_id: current_student.schedules.first.id)
@@ -30,7 +30,7 @@ class CoursesController < ApplicationController
   end
 
 
-# Removes or drops a course from schedule
+# Removes or drops a course from schedule and redirects to schedule page
   def remove
     schedule = Schedule.find(params[:schedule_id])
     course = Course.find(params[:course_id])
@@ -43,7 +43,7 @@ class CoursesController < ApplicationController
   end
 
 
-# Register selected course(s) from schedule page
+# Register selected course(s) from schedule page and redirects to schedule page
    def register
     # Check if course is open before registering
     params[:course_ids].each do |courseid|
@@ -68,6 +68,7 @@ class CoursesController < ApplicationController
       redirect_to new_student_session_path
     end
 
+    # Define operators for credits field
     @operators = ["","exactly","less than","more than"]
   end
 

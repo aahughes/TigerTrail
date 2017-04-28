@@ -20,7 +20,7 @@ rails generate scaffold day name:string
 
 rails generate scaffold schedule student:references semester:references
 
-:: run migrations we just created
+:: run migrations just created
 :: rails db:migrate
 
 :: run seed files
