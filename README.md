@@ -1,24 +1,4 @@
-# README
+# About
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+TigerTrail is a sample university student information system I designed and developed using Ruby on Rails, with features to allow searching a class database by many criteria, selecting and adding classes by each user, and viewing class information. 
+I used Bootstrap to enhance the UI, creating high usability and mobile-readiness.
